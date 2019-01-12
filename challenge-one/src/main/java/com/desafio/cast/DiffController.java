@@ -15,6 +15,12 @@ public class DiffController {
     private static String left = null;
     private static String right = null;
 
+    @RequestMapping(value="/clear", method = RequestMethod.HEAD)
+    public void clear() {
+        left = null;
+        right = null;
+    }
+
     @RequestMapping(value="/{id}/left", method = RequestMethod.HEAD)
     public void left(@PathVariable String id) {
         left = id;
@@ -26,7 +32,15 @@ public class DiffController {
     }
 
     @RequestMapping(value="/diagnosis", method = RequestMethod.GET)
-    public Object diagnosis() {
+    public Object diagnosis() throws Exception {
+        if (left == null) {
+            throw new Exception("The 'left' parameter was not reported.");
+        }
+
+        if (right == null) {
+            throw new Exception("The 'right' parameter was not reported.");
+        }
+
         Base64.Decoder decoder = Base64.getDecoder();
         String rawLeft = new String(decoder.decode(left));
         String rawRight = new String(decoder.decode(right));

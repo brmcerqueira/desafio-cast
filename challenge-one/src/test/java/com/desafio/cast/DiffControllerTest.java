@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,38 +31,69 @@ public class DiffControllerTest {
         return "http://localhost:" + port + "/v1/diff/";
     }
 
-    private Object diagnosisReturnObject(String left, String right) {
-        setLeftAndRight(left, right);
+    private Object diagnosisReturnObject() {
         return this.restTemplate.getForObject(getDiffControllerUri() + "diagnosis", Object.class);
     }
 
-    private void setLeftAndRight(String left, String right) {
+    private void clear() {
+        this.restTemplate.headForHeaders(getDiffControllerUri() + "clear");
+    }
+
+    private void setData(String data, String path) {
         Base64.Encoder encoder = Base64.getEncoder();
         this.restTemplate.headForHeaders(getDiffControllerUri()
-                + encoder.encodeToString(left.getBytes())
-                + "/left");
-        this.restTemplate.headForHeaders(getDiffControllerUri()
-                + encoder.encodeToString(right.getBytes())
-                + "/right");
+                + encoder.encodeToString(data.getBytes())
+                + path);
+    }
+
+    private void setRight(String data) {
+        setData(data, "/right");
+    }
+
+    private void setLeft(String data) {
+        setData(data, "/left");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void setLeftOnlyLeft() {
+        clear();
+        setLeft("test");
+        LinkedHashMap<String, String> result = (LinkedHashMap<String, String>)diagnosisReturnObject();
+        assertTrue(result.containsKey("message"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void setLeftOnlyRight() {
+        clear();
+        setRight("test");
+        LinkedHashMap<String, String> result = (LinkedHashMap<String, String>) diagnosisReturnObject();
+        assertTrue(result.containsKey("message"));
     }
 
     @Test
     public void whenIsEqual() {
-        Object result = diagnosisReturnObject("test", "test");
+        setLeft("test");
+        setRight("test");
+        Object result = diagnosisReturnObject();
         assertTrue(result instanceof Boolean);
         assertTrue((Boolean)result);
     }
 
     @Test
     public void whenSizeIsDifferent() {
-        Object result = diagnosisReturnObject("test_", "test");
+        setLeft("test_");
+        setRight("test");
+        Object result = diagnosisReturnObject();
         assertTrue(result instanceof Integer);
         assertEquals(1, ((Integer)result).intValue());
     }
 
     @Test
     public void whenIsDifferent() {
-        setLeftAndRight("test_test_test_sat", "test_sats_test_set");
+        setLeft("test_test_test_sat");
+        setRight("test_sats_test_set");
         ArrayList<DiffDto> result = this.restTemplate.exchange(getDiffControllerUri() + "diagnosis",
                 HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<DiffDto>>() {}).getBody();
         assertEquals(2, result.size());
