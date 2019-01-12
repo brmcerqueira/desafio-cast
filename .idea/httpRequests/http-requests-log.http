@@ -1,0 +1,42 @@
+GET http://localhost:8080/v1/diff/diagnosis
+Accept: application/json
+
+<> 2019-01-12T010523.200.json
+
+###
+
+GET http://localhost:8080/v1/diff/4546/right
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/diff/diagnosis
+Accept: application/json
+
+<> 2019-01-12T010248.200.json
+
+###
+
+GET http://localhost:8080/v1/diff/4546/right
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/diff/123/right
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/diff/123/left
+Accept: application/json
+
+<> 2019-01-12T010115.500.json
+
+###
+
+GET http://localhost:8080/v1/diff/diagnosis
+Accept: application/json
+
+<> 2019-01-12T010115.500.json
+
+###
