@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Base64;
 
 @RestController
@@ -25,13 +26,41 @@ public class DiffController {
     }
 
     @RequestMapping(value="/diagnosis", method = RequestMethod.GET)
-    public DiagnosisDto diagnosis() {
+    public Object diagnosis() {
         Base64.Decoder decoder = Base64.getDecoder();
         String rawLeft = new String(decoder.decode(left));
         String rawRight = new String(decoder.decode(right));
 
-        DiagnosisDto diagnosisDto = new DiagnosisDto();
-        diagnosisDto.setEqual(rawLeft.equals(rawRight));
-        return diagnosisDto;
+        if (rawLeft.equals(rawRight)) {
+            return true;
+        }
+        else if (rawLeft.length() != rawRight.length()) {
+            if (rawLeft.length() > rawRight.length()) {
+                return rawLeft.length() - rawRight.length();
+            }
+            else {
+                return rawRight.length() - rawLeft.length();
+            }
+        }
+        else {
+            ArrayList<DiffDto> result = new ArrayList<>();
+
+            DiffDto diffDto = new DiffDto();
+
+            for (int index = 0; index < rawLeft.length(); index++) {
+                if (rawLeft.charAt(index) != rawRight.charAt(index)) {
+                    if (diffDto.getOffset() == 0) {
+                        diffDto.setOffset(index);
+                    }
+                }
+                else if (diffDto.getOffset() > 0) {
+                    diffDto.setLength(index - diffDto.getOffset());
+                    result.add(diffDto);
+                    diffDto = new DiffDto();
+                }
+            }
+
+            return result;
+        }
     }
 }
