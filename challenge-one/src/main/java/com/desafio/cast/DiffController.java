@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
+
 @RestController
 @RequestMapping(value="/v1/diff")
 public class DiffController {
@@ -24,8 +26,12 @@ public class DiffController {
 
     @RequestMapping(value="/diagnosis", method = RequestMethod.GET)
     public DiagnosisDto diagnosis() {
+        Base64.Decoder decoder = Base64.getDecoder();
+        String rawLeft = new String(decoder.decode(left));
+        String rawRight = new String(decoder.decode(right));
+
         DiagnosisDto diagnosisDto = new DiagnosisDto();
-        diagnosisDto.setEqual(left.equals(right));
+        diagnosisDto.setEqual(rawLeft.equals(rawRight));
         return diagnosisDto;
     }
 }
