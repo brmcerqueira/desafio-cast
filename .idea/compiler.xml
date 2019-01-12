@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="com.desafio.cast.challenge-one.main" target="1.8" />
+      <module name="com.desafio.cast.challenge-one.test" target="1.8" />
       <module name="com.desafio.cast.challenge-two.main" target="1.8" />
       <module name="com.desafio.cast.challenge-two.test" target="1.8" />
     </bytecodeTargetLevel>
