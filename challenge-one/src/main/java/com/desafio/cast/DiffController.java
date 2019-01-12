@@ -12,18 +12,20 @@ public class DiffController {
     private static String left = null;
     private static String right = null;
 
-    @RequestMapping(value="/{id}/left", method = RequestMethod.GET)
+    @RequestMapping(value="/{id}/left", method = RequestMethod.HEAD)
     public void left(@PathVariable String id) {
         left = id;
     }
 
-    @RequestMapping(value="/{id}/right", method = RequestMethod.GET)
+    @RequestMapping(value="/{id}/right", method = RequestMethod.HEAD)
     public void right(@PathVariable String id) {
         right = id;
     }
 
     @RequestMapping(value="/diagnosis", method = RequestMethod.GET)
-    public boolean diagnosis() {
-        return left.equals(right);
+    public DiagnosisDto diagnosis() {
+        DiagnosisDto diagnosisDto = new DiagnosisDto();
+        diagnosisDto.setEqual(left.equals(right));
+        return diagnosisDto;
     }
 }
