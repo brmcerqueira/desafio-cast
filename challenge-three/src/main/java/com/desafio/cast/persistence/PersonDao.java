@@ -16,7 +16,9 @@ public interface PersonDao {
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Long.class)
     void save(@Param("person") Person person);
 
-    Person find(long id);
+    @Select("select * from person where id = #{id}")
+    Person find(@Param("id") long id);
 
-    void remove(long id);
+    @Delete("delete from person where id = #{id}")
+    void remove(@Param("id") long id);
 }
