@@ -13,7 +13,6 @@ public interface PersonDao {
     List<Person> all();
 
     @Insert("insert into person(name, street, number, neighborhood, city, state, cellphone, phone) values(#{person.name}, #{person.street}, #{person.number}, #{person.neighborhood}, #{person.city}, #{person.state}, #{person.cellphone}, #{person.phone})")
-    @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Long.class)
     void save(@Param("person") Person person);
 
     @Select("select * from person where id = #{id}")

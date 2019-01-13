@@ -25,7 +25,7 @@ public class PersonController {
         return this.service.all();
     }
 
-    @RequestMapping(value="/pessoa/save", method = RequestMethod.POST)
+    @RequestMapping(value="/pessoa/save", method = RequestMethod.PUT)
     public void save(@Valid @RequestBody PersonSaveDto dto) {
         this.service.save(dto);
     }

@@ -19,13 +19,13 @@ public class PersonSaveDto {
     @Size(min = 3, max = 50)
     private String city;
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 2, max = 2)
     private String state;
     @NotNull
     @Size(min = 8, max = 9)
     private String cellphone;
     @NotNull
-    @Size(min = 8, max = 9)
+    @Size(min = 8, max = 8)
     private String phone;
 
     public String getName() {
