@@ -21,6 +21,13 @@ public class PersonService {
     public void save(PersonSaveDto dto) {
         Person person = new Person();
         person.setName(dto.getName());
+        person.setStreet(dto.getStreet());
+        person.setNumber(dto.getNumber());
+        person.setNeighborhood(dto.getNeighborhood());
+        person.setCity(dto.getCity());
+        person.setState(dto.getState());
+        person.setCellphone(dto.getCellphone());
+        person.setPhone(dto.getPhone());
         this.dao.save(person);
     }
 
