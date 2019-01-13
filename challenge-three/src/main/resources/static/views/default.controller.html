@@ -1,12 +1,14 @@
 <table class="table">
     <thead>
         <tr>
+            <th>#</th>
             <th>Nome</th>
             <th colspan="2"></th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="item in source">
+            <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td><button type="button" ng-click="edit(item.id)">Editar</button></td>
             <td><button type="button" ng-click="remove(item.id)">Excluir</button></td>
