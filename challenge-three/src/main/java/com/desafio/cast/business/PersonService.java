@@ -1,6 +1,7 @@
 package com.desafio.cast.business;
 
 import com.desafio.cast.domain.Person;
+import com.desafio.cast.dto.PersonOutputDto;
 import com.desafio.cast.dto.PersonSaveDto;
 import com.desafio.cast.persistence.PersonDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PersonService {
         this.dao.save(person);
     }
 
-    public List<Person> all() {
+    public List<PersonOutputDto> all() {
         return this.dao.all();
     }
 

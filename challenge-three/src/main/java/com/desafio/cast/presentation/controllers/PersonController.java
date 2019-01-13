@@ -2,6 +2,7 @@ package com.desafio.cast.presentation.controllers;
 
 import com.desafio.cast.business.PersonService;
 import com.desafio.cast.domain.Person;
+import com.desafio.cast.dto.PersonOutputDto;
 import com.desafio.cast.dto.PersonSaveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class PersonController {
     }
 
     @RequestMapping(value="/pessoas", method = RequestMethod.GET)
-    public List<Person> all() {
+    public List<PersonOutputDto> all() {
         return this.service.all();
     }
 

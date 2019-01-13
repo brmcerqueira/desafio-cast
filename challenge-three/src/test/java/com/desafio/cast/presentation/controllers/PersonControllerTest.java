@@ -1,6 +1,7 @@
 package com.desafio.cast.presentation.controllers;
 
 import com.desafio.cast.domain.Person;
+import com.desafio.cast.dto.PersonOutputDto;
 import com.desafio.cast.dto.PersonSaveDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,15 +33,15 @@ public class PersonControllerTest {
         return "http://localhost:" + port + "/rest/";
     }
 
-    private ResponseEntity<ArrayList<Person>> getAllPeople() {
-        ResponseEntity<ArrayList<Person>> response = this.restTemplate.exchange(getHostUri() + "pessoas", HttpMethod.GET, null,
-                new ParameterizedTypeReference<ArrayList<Person>>() {});
+    private ResponseEntity<ArrayList<PersonOutputDto>> getAllPeople() {
+        ResponseEntity<ArrayList<PersonOutputDto>> response = this.restTemplate.exchange(getHostUri() + "pessoas", HttpMethod.GET, null,
+                new ParameterizedTypeReference<ArrayList<PersonOutputDto>>() {});
         assertEquals(200, response.getStatusCode().value());
         return response;
     }
 
-    private Person getLastPerson() {
-        ArrayList<Person> body = getAllPeople().getBody();
+    private PersonOutputDto getLastPerson() {
+        ArrayList<PersonOutputDto> body = getAllPeople().getBody();
         return body.get(body.size() - 1);
     }
 
@@ -67,7 +68,7 @@ public class PersonControllerTest {
     @Test
     public void find() {
         save();
-        Person person = getLastPerson();
+        PersonOutputDto person = getLastPerson();
         ResponseEntity<Person> response = this.restTemplate.exchange(getHostUri() + "pessoa/" + person.getId(), HttpMethod.GET, null, Person.class);
         assertEquals(200, response.getStatusCode().value());
     }
@@ -75,7 +76,7 @@ public class PersonControllerTest {
     @Test
     public void remove() {
         save();
-        Person person = getLastPerson();
+        PersonOutputDto person = getLastPerson();
         ResponseEntity<Void> response = this.restTemplate.exchange(getHostUri() + "pessoa/remove/" + person.getId(), HttpMethod.DELETE, null, Void.class);
         assertEquals(200, response.getStatusCode().value());
     }

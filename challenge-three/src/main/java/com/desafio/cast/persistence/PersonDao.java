@@ -1,6 +1,7 @@
 package com.desafio.cast.persistence;
 
 import com.desafio.cast.domain.Person;
+import com.desafio.cast.dto.PersonOutputDto;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +10,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PersonDao {
-    @Select("select * from person")
-    List<Person> all();
+    @Select("select id, name from person")
+    List<PersonOutputDto> all();
 
     @Insert("insert into person(name, street, number, neighborhood, city, state, cellphone, phone) values(#{person.name}, #{person.street}, #{person.number}, #{person.neighborhood}, #{person.city}, #{person.state}, #{person.cellphone}, #{person.phone})")
     void save(@Param("person") Person person);

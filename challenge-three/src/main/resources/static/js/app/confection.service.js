@@ -5,29 +5,29 @@ function ConfectionService($http, keyService) {
     this.keyService = keyService;
 }
 
-ConfectionService.prototype.setup = function (scope, url, init, load, prepareToSave) {
+ConfectionService.prototype.setup = function (scope, urlLoad, urlSave, init, load, prepareToSave) {
     var _this = this;
     var key = this.keyService.key;
     this.keyService.key = null;
     init();
     if (key) {
-        this.$http.get(url + key).then(function (response) {
+        this.$http.get(urlLoad + key).then(function (response) {
             load(response.data);
         }, errorCallback);
     }
     scope.save = function () {
         var entity = prepareToSave();
+
         if (key) {
-            _this.$http.post(url + key, entity).then(function () {
-                alert("salvo!");
-            }, errorCallback);
+            entity.id = key;
         }
-        else {
-            _this.$http.put(url, entity).then(function () {
-                alert("salvo!");
+
+        _this.$http.put(urlSave, entity).then(function () {
+            alert("salvo!");
+            if (!key) {
                 init();
-            }, errorCallback);
-        }
+            }
+        }, errorCallback);
     };
 };
 
