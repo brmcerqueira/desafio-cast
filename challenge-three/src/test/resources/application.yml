@@ -1,4 +1,4 @@
 spring:
   datasource:
-    url: jdbc:sqlite:./challenge-three/database.db
+    url: jdbc:sqlite:database.db
     driverClassName: org.sqlite.JDBC

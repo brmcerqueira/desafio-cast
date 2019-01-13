@@ -4,12 +4,13 @@
     <title>Challenge Three</title>
 </head>
 <body ng-app="challenge.three">
-<hr/>
-<div class="container" ng-controller="MainController">
-
-</div>
+    <div class="container" ng-view></div>
 </body>
     <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-route.min.js"></script>
+    <script src="js/lib/angular-sanitize.min.js"></script>
     <script src="js/app/app.js"></script>
-    <script src="js/app/MainController.js"></script>
+    <script src="js/app/key.service.js"></script>
+    <script src="js/app/query.service.js"></script>
+    <script src="js/app/default.controller.js"></script>
 </html>
