@@ -45,13 +45,7 @@ public class PersonControllerTest {
         return body.get(body.size() - 1);
     }
 
-    @Test
-    public void all() {
-        getAllPeople();
-    }
-
-    @Test
-    public void save() {
+    private void savePerson(Long id) {
         PersonSaveDto dto = new PersonSaveDto();
         dto.setName("Bruno Cerqueira");
         dto.setStreet("rua edson regis");
@@ -61,13 +55,35 @@ public class PersonControllerTest {
         dto.setState("PE");
         dto.setCellphone("988452851");
         dto.setPhone("30301901");
+
+        if (id != null) {
+            dto.setId(id);
+        }
+
         ResponseEntity<Void> response = this.restTemplate.exchange(getHostUri() + "pessoa/save", HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
         assertEquals(200, response.getStatusCode().value());
     }
 
     @Test
+    public void all() {
+        getAllPeople();
+    }
+
+    @Test
+    public void create() {
+        savePerson(null);
+    }
+
+    @Test
+    public void update() {
+        create();
+        PersonOutputDto person = getLastPerson();
+        savePerson(person.getId());
+    }
+
+    @Test
     public void find() {
-        save();
+        create();
         PersonOutputDto person = getLastPerson();
         ResponseEntity<Person> response = this.restTemplate.exchange(getHostUri() + "pessoa/" + person.getId(), HttpMethod.GET, null, Person.class);
         assertEquals(200, response.getStatusCode().value());
@@ -75,7 +91,7 @@ public class PersonControllerTest {
 
     @Test
     public void remove() {
-        save();
+        create();
         PersonOutputDto person = getLastPerson();
         ResponseEntity<Void> response = this.restTemplate.exchange(getHostUri() + "pessoa/remove/" + person.getId(), HttpMethod.DELETE, null, Void.class);
         assertEquals(200, response.getStatusCode().value());

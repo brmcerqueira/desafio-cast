@@ -29,7 +29,14 @@ public class PersonService {
         person.setState(dto.getState());
         person.setCellphone(dto.getCellphone());
         person.setPhone(dto.getPhone());
-        this.dao.save(person);
+
+        if (dto.getId() != null) {
+            person.setId(dto.getId());
+            this.dao.update(person);
+        }
+        else {
+            this.dao.create(person);
+        }
     }
 
     public List<PersonOutputDto> all() {

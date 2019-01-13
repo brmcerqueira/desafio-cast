@@ -4,7 +4,7 @@ function errorCallback(reason) {
     var message = null;
 
     if (reason.data.errors) {
-        message = "Errors:\n";
+        message = "Erros:\n";
         reason.data.errors.forEach(function (item) {
             message += item.field + " -> " + item.defaultMessage + " | valor: " + item.rejectedValue + "\n";
         });
